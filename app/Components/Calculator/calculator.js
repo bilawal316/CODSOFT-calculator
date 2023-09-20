@@ -3,14 +3,23 @@ import React, { useState } from "react";
 
 function Calculator() {
   const [display, setDisplay] = useState("");
+  const [resultDisplayed, setResultDisplayed] = useState(false);
 
   const handleClick = (value) => {
-    setDisplay(display + value);
+    if (resultDisplayed) {
+      // If a result is displayed, start a new calculation
+      setDisplay(value);
+      setResultDisplayed(false);
+    } else {
+      // Otherwise, continue concatenating the display
+      setDisplay(display + value);
+    }
   };
 
   const calculateResult = () => {
     try {
       setDisplay(eval(display).toString());
+      setResultDisplayed(true); // Mark that the result is displayed
     } catch (error) {
       setDisplay("Error");
     }
@@ -18,8 +27,8 @@ function Calculator() {
 
   const clearDisplay = () => {
     setDisplay("");
+    setResultDisplayed(false); // Reset the result display flag
   };
-
   return (
     <div className="border bg-black p-4 rounded-lg">
       <div className="border mb-2 text-center text-black" style={{ backgroundColor: "lightblue", minHeight: "2rem" }}>
